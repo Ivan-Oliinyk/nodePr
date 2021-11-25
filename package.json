@@ -4,14 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "ts": "npx tsc",
-    "nodemon": "nodemon"
+    "build-ts": "npx tsc",
+    "watch": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/types/index.ts",
+    "watch-js": "nodemon --watch 'src/**/*.js' src/main.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^16.11.9",
+    "@types/node": "^16.11.10",
     "nodemon": "^2.0.15",
-    "ts-node": "^10.4.0"
+    "ts-node": "^10.4.0",
+    "tslib": "^2.3.1"
   }
 }
