@@ -60,4 +60,80 @@
 // console.log(hue.rgb(30));
 // console.log(hue.rgb(30));
 
- 
+//  const EventEmitter = require('events')
+
+//  class Demo extends EventEmitter {}
+
+//  const d  = new Demo()
+//  d.on('foo', a => console.log('a', a))
+
+//  d.emit('foo', {test: true})
+
+//  d.prependListener('foo', e => {
+//    console.log(e)
+//    e.timeStamp = Date.now()
+//  })
+
+//  d.emit('foo', {test: true})
+
+// const EventEmitter = require('events')
+
+// class Logger extends EventEmitter {
+//   log(message) {
+//     this.emit('message', `${message} ${Date.now()}`)
+//   }
+// }
+
+// const logger = new Logger() 
+
+// logger.on('message', data => {
+//   console.log(data)
+// })
+
+// logger.log('Hello!')
+// logger.log('Hello!')
+// logger.log('Hello!')
+
+////////////////////////////////////////////////////////////////////////////
+// const events = require('events')
+// // console.log(events);
+
+// const myEmit = new events.EventEmitter()
+
+// myEmit.on('some_event', function(text){
+//   console.log(text);
+// })
+
+// myEmit.emit('some_event', 'its works!!!')
+
+// const util = require('util')
+// // console.log(util);
+// const Cars = function(model) {
+//   this.model = model
+// }
+
+// util.inherits(Cars, events.EventEmitter)
+
+// const bmw = new Cars('BMW')
+// const audi = new Cars('Audi')
+// const volvo = new Cars('Volvo')
+
+// const cars = [bmw, audi, volvo]
+// cars.forEach(function(car) {
+//   car.on('speed', function(text) {
+//     console.log(car.model + " speed - " + text);
+//   })
+// })
+
+// bmw.emit('speed', '254')
+// audi.emit('speed', '210')
+// volvo.emit('speed', '260')
+
+
+/////////////////////////////////////////////////////
+// const MyEE = require('events')
+
+// class myEE extends MyEE {
+
+// }
+
