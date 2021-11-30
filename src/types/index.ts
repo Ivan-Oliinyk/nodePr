@@ -1,5 +1,7 @@
 // import {EventEmitter, errorMonitor, captureRejections} from 'events'
 
+import { count } from "console"
+
 // const ee = new EventEmitter({captureRejections: true})
 // ee.setMaxListeners(2)
 
@@ -540,5 +542,47 @@ a.onWithPipe('click', (e) => console.log(`Done! ${e}`), ['keyDown'])
 a.emit('click', '1')
 
 
+///////////////////////////////////////////////
 
+function nearestValue(values: number[], search: number): number {
+  // your code here
+  let res: number = 0
 
+  const ar: number[] = values.sort((a,b)=> a - b)
+
+  if (values.indexOf(search)!== -1) {
+    res = ar[values.indexOf(search)]
+  } else {
+    let count1: number = 0
+    let count2: number = 0
+    let res1: number = 0
+    let res2: number = 0
+
+    console.log(count1, res1);
+    console.log(count2, res2);
+
+    for(let i = 0; i < ar.length; i++) {
+      count1++
+      
+      if (ar.indexOf(search + i) !== -1) {
+        i = ar.length
+        res1 = ar[ar.indexOf(search + i)]
+      }
+    }
+
+    for(let i = 0; i < ar.length; i++) {
+      count2++
+      
+      if (ar.indexOf(search - i) !== -1) {
+        i = ar.length
+        res2 = ar[ar.indexOf(search - i)]
+      }
+    }
+
+    res = count1 > count2 ? res2 : res1
+  }
+
+  return res
+}
+
+console.log(nearestValue([4, 7, 10, 11, 12, 17], 32)); //10

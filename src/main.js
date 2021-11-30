@@ -242,21 +242,21 @@
 
 ////////////////////////////////////////////////////////////////////////////
 
-const path = require('path')
+// const path = require('path')
 
-console.log(__filename)
-console.log(path.basename(__filename));
-console.log(path.dirname(__filename));
+// console.log(__filename)
+// console.log(path.basename(__filename));
+// console.log(path.dirname(__filename));
 
-console.log(path.parse(__filename));
-console.log(path.parse(__filename).ext);
-console.log(path.parse(__filename).name);
-console.log(path.parse(__filename).base);
-console.log(path.parse(__filename).dir);
+// console.log(path.parse(__filename));
+// console.log(path.parse(__filename).ext);
+// console.log(path.parse(__filename).name);
+// console.log(path.parse(__filename).base);
+// console.log(path.parse(__filename).dir);
 
-console.log(path.join(__dirname, 'test', 'second.html'));
+// console.log(path.join(__dirname, 'test', 'second.html'));
 
-console.log(path.resolve(__dirname, './test', '/secods.js'));
+// console.log(path.resolve(__dirname, './test', '/secods.js'));
 
 
 
