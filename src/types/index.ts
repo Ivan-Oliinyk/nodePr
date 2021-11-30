@@ -359,44 +359,7 @@ setInterval(() => (tEE.emit('click', Date.now()), console.log(tEE)), 1 * 1000)
 // tt.onWithPipe('click', () => console.log('test'), ['click-npc'])
 // tt.emit('click', 'some-event')
 
-import { EventEmitter } from "events";
 
-type TCallback = (args: any) => void;
-type PIPES = { [key: string]: Array<TCallback> }
-class MyEventEmitter extends EventEmitter {
-  private PIPES: any = {}
-
-  constructor() {
-      super()
-  }
-
-  addPipeline(pipeName: string, cbArr: Array<TCallback>): void {
-    this.PIPES[pipeName] = cbArr
-  }
-
-  onWithPipe(eventName: string | symbol, handler: TCallback, pipeNames: Array<string>): void {
-    pipeNames.forEach((pipeName): void =>
-      this.PIPES[pipeName].forEach((cb: TCallback) =>
-        this.on(eventName, cb)
-      )
-    )
-
-    this.on(eventName, handler)
-  }
-}
-
-const myEE = new MyEventEmitter();
-
-const cb1 = (someEvent: string) => console.log('cb1: ' + someEvent);
-const cb2 = (someEvent: string) => console.log('cb2: ' + someEvent);
-const cb3 = (someEvent: string) => console.log('cb3: ' + someEvent);
-
-myEE.addPipeline('pipe', [cb1, cb2, cb3]);
-myEE.addPipeline('dy-pipe', [cb3, cb2, cb3]);
-myEE.addPipeline('justPipe', [cb3, cb2, cb3]);
-
-myEE.onWithPipe('click', () => console.log('HANDLER - ТВОИ КОЛЛБЭКИ ЗАЛЕТЕЛИ!'), ['pipe', 'dy-pipe']);
-myEE.emit('click', 'some-event');
 
 // console.log(111_222_123 * 2);
 // const a = {
@@ -433,16 +396,149 @@ myEE.emit('click', 'some-event');
 // }
 
 // console.log(a)
-type Age = number
+// type Age = number
 
-type Person = {
-  name: string,
-  age: Age
+// type Person = {
+//   name: string,
+//   age: Age
+// }
+
+// const user: Person = {
+//   name : 'Poly',
+//   age : 30
+// }
+
+// console.log(user);
+
+// function splitPairs(text: string): string[] {
+//   // your code here
+//   const res: string[] = []
+//   let r: string = ''
+  
+//   for(let i: number = 0; i < text.length; i++) {
+//       r += text[i]
+            
+//       if(r.length === 2) {
+//           res.push(r)
+//           r = ''
+//       }
+      
+//   }
+    
+//   if (r.length === 1){
+//       res.push(r + "_")
+//   }
+  
+//   return res;
+// }
+
+// console.log(splitPairs('abcde'));
+
+// function nearestValue(values: number[], search: number): number {
+//   // your code here
+//   return values.sort((a,b)=> a - b).reduce((res, el, i, arr) => {
+     
+//   });
+// }
+
+// console.log(nearestValue([4, 7, 10, 11, 12, 17], 9));
+////////////////////////////////////////////////////////////////////////////////
+// import { EventEmitter } from "events";
+
+// type TCallback = (args: any) => void;
+// type PIPES = { [key: string]: Array<TCallback> }
+// class MyEventEmitter extends EventEmitter {
+//   private PIPES: any = {}
+
+//   constructor() {
+//       super()
+//   }
+
+//   addPipeline(pipeName: string, cbArr: Array<TCallback>): void {
+//     this.PIPES[pipeName] = cbArr
+//   }
+
+//   onWithPipe(eventName: string | symbol, handler: TCallback, pipeNames: Array<string>): void {
+//     pipeNames.forEach((pipeName): void =>
+//       this.PIPES[pipeName].forEach((cb: TCallback) =>
+//         this.on(eventName, cb)
+//       )
+//     )
+
+//     this.on(eventName, handler)
+//   }
+// }
+
+// const myEE = new MyEventEmitter();
+
+// const cb1 = (someEvent: string) => console.log('cb1: ' + someEvent);
+// const cb2 = (someEvent: string) => console.log('cb2: ' + someEvent);
+// const cb3 = (someEvent: string) => console.log('cb3: ' + someEvent);
+
+// myEE.addPipeline('pipe', [cb1, cb2, cb3]);
+// myEE.addPipeline('dy-pipe', [cb3, cb2, cb3]);
+// myEE.addPipeline('justPipe', [cb3, cb2, cb3]);
+
+// myEE.onWithPipe('click', () => console.log('HANDLER'), ['pipe', 'dy-pipe']);
+// myEE.emit('click', 'some-event');
+
+///////////////////////////////////////////////////////////////////////////////////////////
+// import Path from "path"
+// const path = 
+
+// import {EventEmitter} from "events";
+
+// type Cb = (currentVal: any, oldVal: any) => any
+// type Handler = (event: any) => void
+// class myEE extends EventEmitter {
+
+// }
+
+//////////Den dev /////////////////
+const EventEmitter = require('events')
+
+type Cb = Array<(currentVal: any, oldVal: any) => any>
+type Handler = (event: any) => void
+type pipeLinesObj = { eventName: string, eventCb: Array<(...args: any) => void> }
+
+class myEE extends EventEmitter {
+  private pipeLinesStore: pipeLinesObj[] = []
+
+  addPipeLine(eventName: string, cbArray: Cb) {
+    this.pipeLinesStore.push({ eventName: eventName, eventCb: cbArray })
+  }
+
+  onWithPipe(event: string, handler: Handler, eventNamesArr: string[]): void {
+    let temp = this.pipeLinesStore.filter(obj => eventNamesArr.includes(obj.eventName))
+        .map(obj => obj.eventCb)
+        .flat(1)
+    
+    const callbacks = (data: any) => {
+        temp.reduce((acc: any, cb: any) => cb.call(void 0, acc, data), data)
+
+        console.log(temp.reduce((acc: any, cb: any) => cb.call(void 0, acc, data), data))
+    }
+
+    this.on(event, callbacks)
+    handler(`callbacks ok! - emitName: ${event}`)
+  }
 }
 
-const user: Person = {
-  name : 'Poly',
-  age : 30
+const a = new myEE();
+
+function f(currentVal: any, oldVal: any): any {
+    console.log(`${currentVal} | ${oldVal}`);
+    
+  return currentVal + oldVal
 }
 
-console.log(user);
+a.addPipeLine('keyDown', [f, f])
+a.addPipeLine('keyDown', [f, f])
+a.addPipeLine('down', [f, f])
+a.onWithPipe('click', (e) => console.log(`Done! ${e}`), ['keyDown'])
+
+a.emit('click', '1')
+
+
+
+

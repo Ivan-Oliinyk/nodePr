@@ -137,3 +137,127 @@
 
 // }
 
+// class EventEmitter {
+//   constructor() {
+//     this.events = {};
+//   }
+    
+//   subscribe(eventName, callback) {
+//     !this.events[eventName] && (this.events[eventName] = []);
+//     this.events[eventName].push(callback);
+//   }
+
+//   unsubscribe(eventName, callback) {
+//     this.events[eventName] = this.events[eventName]
+//       .filter(eventCallback => callback !== eventCallback);
+//   }
+
+//   emit(eventName, args) {
+//   const event = this.events[eventName];
+//   event && event.forEach(callback => callback.call(null, args));
+// }
+// }
+
+// var events = require('events');
+// var em = new events.EventEmitter();
+
+// em.on('FirstEvent', function (data) {
+//     console.log('First subscriber: ' + data);
+// });
+
+// em.on('1', function(num) {
+//   console.log("Number: " + num);
+// })
+
+// em.on('SayHello', (n) => 
+//     console.log("Jjj =>" + n)
+  
+// )
+
+// em.emit('FirstEvent', 'This is my first Node.js event emitter example.');
+// em.emit('1', '56')
+// em.emit('SayHello', "121")
+
+// const EventEmitter = require('events')
+// import { EventEmitter } from "events";
+
+// type TCallback = (args: any) => void;
+// type PIPES = { [key: string]: Array<TCallback> }
+// class MyEventEmitter extends EventEmitter {
+//   private PIPES: any = {}
+
+//   constructor() {
+//       super()
+//   }
+
+//   addPipeline(pipeName: string, cbArr: Array<TCallback>): void {
+//     this.PIPES[pipeName] = cbArr
+//   }
+
+//   onWithPipe(eventName: string | symbol, handler: TCallback, pipeNames: Array<string>): void {
+//     pipeNames.forEach((pipeName): void =>
+//       this.PIPES[pipeName].forEach((cb: TCallback) =>
+//         this.on(eventName, cb)
+//       )
+//     )
+
+//     this.on(eventName, handler)
+//   }
+// }
+
+// const myEE = new MyEventEmitter();
+
+// const cb1 = (someEvent: string) => console.log('cb1: ' + someEvent);
+// const cb2 = (someEvent: string) => console.log('cb2: ' + someEvent);
+// const cb3 = (someEvent: string) => console.log('cb3: ' + someEvent);
+
+// myEE.addPipeline('pipe', [cb1, cb2, cb3]);
+// myEE.addPipeline('dy-pipe', [cb3, cb2, cb3]);
+// myEE.addPipeline('justPipe', [cb3, cb2, cb3]);
+
+// myEE.onWithPipe('click', () => console.log('HANDLER'), ['pipe', 'dy-pipe']);
+// myEE.emit('click', 'some-event');
+
+////////////////////// pipeLine /////////////////////////////////////////
+// Array.prototype.pipeLine = function (mods) {
+//   return this.map((el,idx,arr) =>
+//       mods.reduce((accumul, fn, mIdx) =>
+//           fn.call(void 0, accumul, mIdx, arr, mods, idx), el)
+//   )
+// }
+
+// function a(el, indx, arr, modific, modIdx) {
+//   return el * modIdx
+// }
+
+// function b(el, indx, arr, modific, modIdx) {
+//   return el + modIdx
+// }
+
+// function c(el, indx, arr, modific, modIdx) {
+//   return el - modIdx
+// }
+
+// console.log([1, 2, 3].pipeLine([a, b, c]));
+
+////////////////////////////////////////////////////////////////////////////
+
+const path = require('path')
+
+console.log(__filename)
+console.log(path.basename(__filename));
+console.log(path.dirname(__filename));
+
+console.log(path.parse(__filename));
+console.log(path.parse(__filename).ext);
+console.log(path.parse(__filename).name);
+console.log(path.parse(__filename).base);
+console.log(path.parse(__filename).dir);
+
+console.log(path.join(__dirname, 'test', 'second.html'));
+
+console.log(path.resolve(__dirname, './test', '/secods.js'));
+
+
+
+
