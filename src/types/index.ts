@@ -1,5 +1,6 @@
 // import {EventEmitter, errorMonitor, captureRejections} from 'events'
 
+import { strictEqual } from "assert";
 import { count } from "console"
 
 // const ee = new EventEmitter({captureRejections: true})
@@ -497,92 +498,580 @@ setInterval(() => (tEE.emit('click', Date.now()), console.log(tEE)), 1 * 1000)
 // }
 
 //////////Den dev /////////////////
-const EventEmitter = require('events')
+// const EventEmitter = require('events')
 
-type Cb = Array<(currentVal: any, oldVal: any) => any>
-type Handler = (event: any) => void
-type pipeLinesObj = { eventName: string, eventCb: Array<(...args: any) => void> }
+// type Cb = Array<(currentVal: any, oldVal: any) => any>
+// type Handler = (event: any) => void
+// type pipeLinesObj = { eventName: string, eventCb: Array<(...args: any) => void> }
 
-class myEE extends EventEmitter {
-  private pipeLinesStore: pipeLinesObj[] = []
+// class myEE extends EventEmitter {
+//   private pipeLinesStore: pipeLinesObj[] = []
 
-  addPipeLine(eventName: string, cbArray: Cb) {
-    this.pipeLinesStore.push({ eventName: eventName, eventCb: cbArray })
-  }
+//   addPipeLine(eventName: string, cbArray: Cb) {
+//     this.pipeLinesStore.push({ eventName: eventName, eventCb: cbArray })
+//   }
 
-  onWithPipe(event: string, handler: Handler, eventNamesArr: string[]): void {
-    let temp = this.pipeLinesStore.filter(obj => eventNamesArr.includes(obj.eventName))
-        .map(obj => obj.eventCb)
-        .flat(1)
+//   onWithPipe(event: string, handler: Handler, eventNamesArr: string[]): void {
+//     let temp = this.pipeLinesStore.filter(obj => eventNamesArr.includes(obj.eventName))
+//         .map(obj => obj.eventCb)
+//         .flat(1)
     
-    const callbacks = (data: any) => {
-        temp.reduce((acc: any, cb: any) => cb.call(void 0, acc, data), data)
+//     const callbacks = (data: any) => {
+//         temp.reduce((acc: any, cb: any) => cb.call(void 0, acc, data), data)
 
-        console.log(temp.reduce((acc: any, cb: any) => cb.call(void 0, acc, data), data))
-    }
+//         console.log(temp.reduce((acc: any, cb: any) => cb.call(void 0, acc, data), data))
+//     }
 
-    this.on(event, callbacks)
-    handler(`callbacks ok! - emitName: ${event}`)
-  }
-}
+//     this.on(event, callbacks)
+//     handler(`callbacks ok! - emitName: ${event}`)
+//   }
+// }
 
-const a = new myEE();
+// const a = new myEE();
 
-function f(currentVal: any, oldVal: any): any {
-    console.log(`${currentVal} | ${oldVal}`);
+// function f(currentVal: any, oldVal: any): any {
+//     console.log(`${currentVal} | ${oldVal}`);
     
-  return currentVal + oldVal
-}
+//   return currentVal + oldVal
+// }
 
-a.addPipeLine('keyDown', [f, f])
-a.addPipeLine('keyDown', [f, f])
-a.addPipeLine('down', [f, f])
-a.onWithPipe('click', (e) => console.log(`Done! ${e}`), ['keyDown'])
+// a.addPipeLine('keyDown', [f, f])
+// a.addPipeLine('keyDown', [f, f])
+// a.addPipeLine('down', [f, f])
+// a.onWithPipe('click', (e) => console.log(`Done! ${e}`), ['keyDown'])
 
-a.emit('click', '1')
+// a.emit('click', '1')
 
 
 ///////////////////////////////////////////////
 
-function nearestValue(values: number[], search: number): number {
-  // your code here
-  let res: number = 0
+// function nearestValue(values: number[], search: number): number {
+//   // your code here
+//   let res: number = 0
+//   const ar: number[] = values.sort((a,b)=> a - b)
 
-  const ar: number[] = values.sort((a,b)=> a - b)
+//   if (values.indexOf(search)!== -1) {
+//     res = ar[values.indexOf(search)]
+//   } else if (search > ar[ar.length -1]){
+//     return ar[ar.length -1]
+//   } else {
+//     let i = 0
+//     let b = true
 
-  if (values.indexOf(search)!== -1) {
-    res = ar[values.indexOf(search)]
-  } else {
-    let count1: number = 0
-    let count2: number = 0
-    let res1: number = 0
-    let res2: number = 0
+//     for(let i = 0; i < ar.length; i++) {
+//       if (ar.indexOf(search - i) > -1) {
+//         return ar[ar.indexOf(search - i)]
+//       }
 
-    console.log(count1, res1);
-    console.log(count2, res2);
+//       if (ar.indexOf(search + i) > -1) {
+//         return  ar[ar.indexOf(search + i)]
+//       }
+//     }
+//   }
 
-    for(let i = 0; i < ar.length; i++) {
-      count1++
-      
-      if (ar.indexOf(search + i) !== -1) {
-        i = ar.length
-        res1 = ar[ar.indexOf(search + i)]
-      }
-    }
+//   return res
+// }
 
-    for(let i = 0; i < ar.length; i++) {
-      count2++
-      
-      if (ar.indexOf(search - i) !== -1) {
-        i = ar.length
-        res2 = ar[ar.indexOf(search - i)]
-      }
-    }
+// console.log(nearestValue([4, 7, 10, 11, 12, 17], 19));
+// console.log(nearestValue([4, 8, 10, 11, 12, 17], 9));
+// console.log(nearestValue([4, 7, 10, 11, 12, 17], 100));
 
-    res = count1 > count2 ? res2 : res1
+// function correctSentence(text: string): string {
+//   // your code here
+//   if(text.slice(-1) === '.') {
+//     return text.slice(0,1).toUpperCase() + text.slice(1)
+//   }
+
+//   return text.slice(0,1).toUpperCase() + text.slice(1) + '.'
+// }
+
+// console.log(correctSentence('greetings, friends'))
+// console.log(correctSentence('Greetings, friends.'))
+
+// function sumNumbers(test: string): number {
+//   return test.split(' ').reduce((sum: number, el: string) => !isNaN(Number(el)) ? sum += Number(el) : sum  ,0)
+// }
+
+// console.log(sumNumbers('This picture is an oil on canvas '
+// + 'painting by Danish artist Anna '
+// + 'Petersen between 1845 and 1910 year'));
+
+// console.log(isNaN(Number('2')));
+// console.log("HelloWorldhello".split('').every(el => isNaN(Number(el))))
+
+// function threeWords(text: string): boolean {
+//   // return text.split(' ').length < 3 ? false :
+//   //   text.split(' ').reduce((res: boolean, el: string, i: number, arr: string[]) => arr.slice(i, i + 3)
+//   //     .every((it: string) => isNaN(Number(it))) ? res = true : res, false)
+//   const arr = text.split(' ')
+
+//   if (arr.length < 3) return false
+
+//   let count: number = 0
+  
+//   for(let i: number = 0; i < arr.length; i++) {
+//     if (isNaN(Number(arr[i]))) {
+//       count++
+
+//       if(count >= 3) {
+//         return true
+//       }
+//     } else {
+//       count = 0
+//     }
+//   }
+  
+//   return count >= 3
+// }
+
+// console.log("Hello World hello 12".split(' ').slice(0, 0+3));
+// console.log('isNaN', isNaN(Number('sd')));
+
+// console.log(threeWords("Hello World hello"));
+// console.log(threeWords("Hello World hello 12"))
+// console.log(threeWords("Hi"))
+// console.log(threeWords("123 2123 123 sdsd sdad"))
+// console.log(threeWords("bla 21 bla bla bla 12"));
+// console.log(threeWords("He is 123 man"));
+
+
+// console.log("He is 123 man".split(' ').every(el => isNaN(Number(el))));
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+import { EventEmitter } from "events";
+
+type TCallback = (current: any, old: any) => any;
+type TPipes = { [key: string]: Array<TCallback> }
+type TPipesOn = { [key: string]: any }
+class MyEventEmitter extends EventEmitter {
+  private PIPES: TPipes = {}
+  private PIPES_ON: TPipesOn = {}
+  constructor() {
+    super()
   }
+  addPipeline(pipeName: string, cbArr: Array<TCallback>): void {
+    this.PIPES[pipeName] = cbArr
+  }
+  onWithPipe(eventName: string | symbol, handler: (...args: any) => void, pipeNames: Array<string>): void {
+    pipeNames.forEach((pipeName) => {
+    const eventPipe = (data: any): void => {
+      this.PIPES[pipeName].reduce((acc: [any, any, any], cb: TCallback) => {
+        acc[2] = acc[1]
+        acc[1] = acc[0]
+        acc[0] = cb.call(void 0, acc[0], acc[2])
 
-  return res
+        return acc
+        }, [data, null, null])
+      }
+
+      this.PIPES_ON[pipeName] = eventPipe;
+      this.on(eventName, eventPipe)
+    })
+
+    handler(`pipes [${pipeNames}] были связаны с событием: ${String(eventName)}\n`);
+  }
+  offWithPipe(eventName: string | symbol, pipeNames: Array<string>): void {
+    pipeNames.forEach((pipeName) =>
+        this.off(eventName, this.PIPES_ON[pipeName])
+    )
+
+    console.log(`\npipes [${pipeNames}] были отвязаны от события: ${String(eventName)}\n`);
+  }
 }
 
-console.log(nearestValue([4, 7, 10, 11, 12, 17], 32)); //10
+const myEE = new MyEventEmitter();
+
+const cb1 = (current: any, old: any): any => {
+  console.log(`cb1: ${current} | ${old} `);
+  return current + '1'
+}
+
+const cb2 = (current: any, old: any): any => {
+  console.log(`cb2: ${current} | ${old} `);
+  return current * 2
+}
+
+const handler = (eventyany: string) => console.log(eventyany);
+myEE.addPipeline('pipe', [cb1, cb1, cb1, cb1, cb1]);
+myEE.addPipeline('dy-pipe', [cb2, cb2, cb2, cb2, cb2]);
+myEE.onWithPipe('click', handler, ['pipe', 'dy-pipe']);
+myEE.emit('click', 1);
+myEE.offWithPipe('click', ['pipe'])
+myEE.emit('click', 4);
+
+*/
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// const EventEmitter = require('events');
+
+// class MyEmitter extends EventEmitter {}
+
+// const myEmitter = new MyEmitter();
+
+// myEmitter.on('event', () => {
+//   console.log('an event occurred!');
+// });
+
+// myEmitter.emit('event');
+
+// import { EventEmitter } from "events"
+// const myEE = new EventEmitter()
+
+// myEE.on('kkk', ()=>{
+//   console.log("adada");
+// })
+
+// myEE.emit('kkk')
+
+// import { EventEmitter } from "events"
+
+// const myEE = new EventEmitter()
+
+// myEE.on('ev', function(a,b): any{
+//   console.log(a, b, this, this === myEE);
+// })
+
+// myEE.emit('ev', 3, 2)
+
+// import { EventEmitter } from "events"
+
+// const myEE = new EventEmitter()
+// myEE.on('e', (a,b)=>{
+//   console.log(a,b,this);
+// })
+// myEE.emit('e', 2, 1)
+
+// import { EventEmitter } from "events"
+
+// const myEE = new EventEmitter()
+
+// let count = 0
+
+// // myEE.on('ev', (a, b) => {
+// //   setImmediate(() => {
+// //     console.log("Async");
+// //   })
+// // })
+
+// // myEE.on('Lol', ()=>{console.log('Say lol')})
+
+// // myEE.emit('ev', 2, 3)
+// // myEE.emit('Lol')
+
+// // console.log(myEE);
+
+// myEE.on('Add', ()=> {
+//   console.log(count++);
+// })
+
+// myEE.emit('Add')
+// function firstWord(text: string): string {
+//   return 
+// }
+
+// console.log(firstWord("Hello world"));
+// console.log(firstWord("... and so on ..."))
+
+// console.log(/^[A-Z]+$/i.test('dsasd...'));
+
+// function firstWord(text: string): string {
+//   return String(text.split(' ').find(el => /^[A-Z]+$/i.test(el)))
+// }
+
+// console.log(firstWord("... and so on ..."));
+// console.log(firstWord("Hello world"));
+/*
+
+import { EventEmitter } from "events";
+
+type TCallback = (current: any, old: any) => any;
+type TPipes = { [key: string]: Array<TCallback> }
+type TPipesOn = { [key: string]: any }
+
+class MyEventEmitter extends EventEmitter {
+  private PIPES: TPipes = {}
+  private PIPES_ON: TPipesOn = {}
+  constructor() {
+    super()
+  }
+  addPipeline(pipeName: string, cbArr: Array<TCallback>): void {
+    this.PIPES[pipeName] = cbArr
+  }
+  onWithPipe(eventName: string | symbol, handler: (...args: any) => void, pipeNames: Array<string>): void {
+    pipeNames.forEach((pipeName) => {
+    const eventPipe = (data: any): void => {
+      this.PIPES[pipeName].reduce((acc: [any, any, any], cb: TCallback) => {
+        acc[2] = acc[1]
+        acc[1] = acc[0]
+        acc[0] = cb.call(void 0, acc[0], acc[2])
+
+        return acc
+        }, [data, null, null])
+      }
+
+      this.PIPES_ON[pipeName] = eventPipe;
+      this.on(eventName, eventPipe)
+    })
+
+    handler(`pipes [${pipeNames}] были связаны с событием: ${String(eventName)}\n`);
+  }
+  offWithPipe(eventName: string | symbol, pipeNames: Array<string>): void {
+    pipeNames.forEach((pipeName) =>
+        this.off(eventName, this.PIPES_ON[pipeName])
+    )
+
+    console.log(`\npipes [${pipeNames}] были отвязаны от события: ${String(eventName)}\n`);
+  }
+}
+
+const myEE = new MyEventEmitter();
+
+const cb1 = (current: any, old: any): any => {
+  console.log(`cb1: ${current} | ${old} `);
+  return current + '1'
+}
+
+const cb2 = (current: any, old: any): any => {
+  console.log(`cb2: ${current} | ${old} `);
+  return current * 2
+}
+
+const handler = (eventyany: string) => console.log(eventyany);
+myEE.addPipeline('pipe', [cb1, cb1, cb1, cb1, cb1]);
+myEE.addPipeline('dy-pipe', [cb2, cb2, cb2, cb2, cb2]);
+myEE.onWithPipe('click', handler, ['pipe', 'dy-pipe']);
+myEE.emit('click', 1);
+myEE.offWithPipe('click', ['pipe'])
+myEE.emit('click', 4);
+
+*/
+
+// import { EventEmitter } from "events"
+
+// type CallBack = (current: any, old: any) => any
+// type Handler = (event: any) => void
+// class myEE extends EventEmitter {
+
+
+//   constructor() {
+//     super()
+//   }
+
+
+// }
+
+
+// import { EventEmitter } from "events";
+// type TCallback = (current: any, old: any) => any;
+// type TPipes = { [key: string]: Array<TCallback> }
+// class MyEventEmitter extends EventEmitter {
+//   private PIPES: TPipes = {}
+//   constructor() {
+//     super()
+//   }
+
+//   addPipeline(pipeName: string, cbArr: Array<TCallback>): void {
+//     this.PIPES[pipeName] = cbArr
+//   }
+
+//   onWithPipe(eventName: string | symbol, handler: (data: any) => any, pipeNames: Array<string>): void {
+//     const pipesGo = (data: any): void => {
+//       pipeNames.forEach((pipeName) => {
+//         this.PIPES[pipeName].reduce((acc: [any, any, any], cb: TCallback) => {
+//           acc[2] = acc[1]
+//           acc[1] = acc[0]
+//           acc[0] = cb.call(void 0, acc[0], acc[2])
+//           return acc
+//         }, [data, null, null])
+//       }
+//     )}
+//     handler.bind(void 0, pipesGo(1))
+//     this.on(eventName, handler)
+//   }
+// }
+// const myEE = new MyEventEmitter();
+// const cb1 = (current: any, old: any): any => {
+//   console.log(`cb1: ${current} | ${old} `);
+//   return current + 1
+// }
+// const cb2 = (current: any, old: any): any => {
+//   console.log(`cb2: ${current} | ${old} `);
+//   return current * 2
+// }
+// const handler = (data: any): any => console.log(data);
+// myEE.addPipeline('pipe', [cb1, cb1, cb1, cb1, cb1]);
+// myEE.addPipeline('dy-pipe', [cb2, cb2, cb2, cb2, cb2]);
+// myEE.onWithPipe('click', handler, ['pipe', 'dy-pipe']);
+// //console.log(myEE);
+// myEE.emit('click', 10);
+// myEE.off('click', handler)
+// //console.log(myEE);
+
+////////////////////////////////////////////find first world//////////////////////////////
+// function firstWord(text: string): string {
+//   let str = (text.split(' ').filter(el => /^[A-Z]+$/i.test(el[0]) && el !== ' ').join(' ').trim().split(' ')[0])
+//   return str[str.length - 1] === "," ? str.slice(0, -1) : str.includes('.') ? str.slice(0, str.indexOf('.')) : str
+// }
+
+// console.log(firstWord("... a and so on ..."));
+// console.log(firstWord(" a.a word "));
+/////////////////////////////////////////////////////////////////////////////////////////////////// how much numbers in yhe string
+// function countDigits(text: string): number {
+//   return text.split('').reduce((sum: number, el: string) => !isNaN(Number(el)) && el !== ' ' ? sum += 1 : sum  , 0)
+// }
+
+// console.log(countDigits('This picture is an oil on canvas '
+// + 'painting by Danish artist Anna '
+// + 'Petersen between 1845 and 1910 year'));
+///////////////////////////////////////////////////////////////////////////////
+// function backwardStringByWord(text: string): string {
+//   return text.split(' ').map(el => el.split('').reverse().join('')).join('')
+// }
+
+// console.log(backwardStringByWord('world'));
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+import { EventEmitter } from "events";
+type TCallback = (current: any, old: any) => any;
+type TPipes = { [key: string]: Array<TCallback> }
+class MyEventEmitter extends EventEmitter {
+  private PIPES: TPipes = {}
+  constructor() {
+    super()
+  }
+  addPipeline(pipeName: string, cbArr: Array<TCallback>): void {
+    this.PIPES[pipeName] = cbArr
+  }
+  onWithPipe(eventName: string | symbol, handler: (data: any) => any, pipeNames: Array<string>): void {
+    const pipesGo = (data: any): void => {
+      pipeNames.forEach((pipeName) => {
+        this.PIPES[pipeName].reduce((acc: [any, any, any], cb: TCallback) => {
+          acc[2] = acc[1]
+          acc[1] = acc[0]
+          acc[0] = cb.call(void 0, acc[0], acc[2])
+          return acc
+        }, [data, null, null])
+      })
+    }
+    this.on(
+      eventName,
+      handler.call(void 0, pipesGo)
+    )
+  }
+}
+const myEE = new MyEventEmitter();
+const cb1 = (current: any, old: any): any => {
+  console.log(`cb1: ${current} | ${old}` );
+  return current + 1
+}
+const cb2 = (current: any, old: any): any => {
+  console.log(`cb2: ${current} | ${old}` );
+  return current * 2
+}
+const handler = (data: any): any => data
+myEE.addPipeline('pipe', [cb1, cb1, cb1, cb1, cb1]);
+myEE.addPipeline('dy-pipe', [cb2, cb2, cb2, cb2, cb2]);
+const someEvent = myEE.onWithPipe('click', handler, ['pipe', 'dy-pipe']);
+//console.log(myEE);
+myEE.emit('click', 100);
+myEE.off('click', handler)
+//console.log(myEE);
+
+*/
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+// import { EventEmitter, errorMonitor } from "events";
+
+// const myEE = new EventEmitter()
+
+// let m: number = 0
+
+// myEE.on('ev', ()=>{
+//   console.log(++m);
+// })
+
+// myEE.emit('ev')
+// myEE.emit('ev')
+
+// myEE.emit('error', new Error('whoops!'))
+
+// myEE.on('error', (err)=>{
+//   console.error("whoops!")
+// })
+
+// myEE.emit('error', new Error('whoops!'))
+
+
+// myEE.on(errorMonitor, (err)=>{
+//   MyMonitoringTool.log(err)
+// })
+
+// myEE.emit('error', new Error('WHOOPS !'))
+
+///////////////////////////////////////////////////////////////////
+// import assert from "assert";
+
+// interface Stock {
+//     name: string,
+//     price: number,
+// };
+
+// function biggerPrice(limit: number, data: Stock[]): Stock[] {
+//     // your code here
+//     return data.sort((a, b) => b.price - a.price).slice(0, limit);
+// }
+
+// console.log(biggerPrice(2, [
+//   {"name": "bread", "price": 100},
+//   {"name": "wine", "price": 138},
+//   {"name": "meat", "price": 15},
+//   {"name": "water", "price": 1}
+// ]));
+
+////////////////////////////////////////////////////////////////////
+// function betweenMarkers(text: string, begin: string, end: string): string {
+//   return text.slice(
+//     (text.indexOf(begin) === -1 ? 0 : (text.indexOf(begin) + begin.length)), 
+//     text.indexOf(end) === -1 ? text.length : text.indexOf(end));
+// }
+
+// console.log(betweenMarkers('What is >apple<', '>', '<'));
+// console.log(betweenMarkers("<head><title>My new site</title></head>",
+// "<title>", "</title>"), 'My new site');
+// console.log(betweenMarkers('No[/b] hi', '[b]', '[/b]'));
+// console.log(betweenMarkers('No [b]hi', '[b]', '[/b]'));
+
+/////////////////////////////////////////////////////////////////////
+
+// const obj: {[key: string] : number} = {}
+// obj.a = 2
+// console.log(obj); 
+
+/////////////////////////////////////////////////////////////////
+
+// function popularWords(text: string, words: string[]) {
+//   const obj: {[key: string] : number} = {}
+//   const text1: string = text.toLowerCase()
+//     .split('').map(el => el === '\n' ? " " : el).join('')
+     
+//   words.forEach(el => obj[el] = 0)
+
+//   text1.split(' ').forEach(el => {
+//     words.forEach(word => {
+//       if(el === word) {
+        
+//         obj[word] += 1
+//       }
+
+//     })
+//   })
+
+//   return obj;
+// }
+
+// console.log(popularWords(`
+// When I was One
+// I had just begun
+// When I was Two
+// I was nearly new`, ['i', 'was', 'three', 'near']));
+
+//////////////////////////////////////////////////////////////////////
