@@ -1,11 +1,12 @@
 // // import {EventEmitter, errorMonitor, captureRejections} from 'events'
 
-<<<<<<< HEAD
-import { strictEqual } from "assert";
-import { count } from "console"
-=======
+// <<<<<<< HEAD
+// import { strictEqual } from "assert";
 // import { count } from "console"
->>>>>>> f728d838810bb33c1ac473a60fc2f948a57f0097
+// import { listenerCount } from "process";
+// =======
+// import { count } from "console"
+
 
 // // const ee = new EventEmitter({captureRejections: true})
 // // ee.setMaxListeners(2)
@@ -938,54 +939,143 @@ myEE.emit('click', 4);
 
 // console.log(backwardStringByWord('world'));
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-import { EventEmitter } from "events";
-type TCallback = (current: any, old: any) => any;
-type TPipes = { [key: string]: Array<TCallback> }
-class MyEventEmitter extends EventEmitter {
-  private PIPES: TPipes = {}
-  constructor() {
-    super()
-  }
-  addPipeline(pipeName: string, cbArr: Array<TCallback>): void {
-    this.PIPES[pipeName] = cbArr
-  }
-  onWithPipe(eventName: string | symbol, handler: (data: any) => any, pipeNames: Array<string>): void {
-    const pipesGo = (data: any): void => {
-      pipeNames.forEach((pipeName) => {
-        this.PIPES[pipeName].reduce((acc: [any, any, any], cb: TCallback) => {
-          acc[2] = acc[1]
-          acc[1] = acc[0]
-          acc[0] = cb.call(void 0, acc[0], acc[2])
-          return acc
-        }, [data, null, null])
-      })
-    }
-    this.on(
-      eventName,
-      handler.call(void 0, pipesGo)
-    )
-  }
-}
-const myEE = new MyEventEmitter();
-const cb1 = (current: any, old: any): any => {
-  console.log(`cb1: ${current} | ${old}` );
-  return current + 1
-}
-const cb2 = (current: any, old: any): any => {
-  console.log(`cb2: ${current} | ${old}` );
-  return current * 2
-}
-const handler = (data: any): any => data
-myEE.addPipeline('pipe', [cb1, cb1, cb1, cb1, cb1]);
-myEE.addPipeline('dy-pipe', [cb2, cb2, cb2, cb2, cb2]);
-const someEvent = myEE.onWithPipe('click', handler, ['pipe', 'dy-pipe']);
-//console.log(myEE);
-myEE.emit('click', 100);
-myEE.off('click', handler)
-//console.log(myEE);
 
-*/
+// import { EventEmitter } from "events";
+// type TCallback = (current: any, old: any) => any;
+// type TPipes = { [key: string]: Array<TCallback> }
+// class MyEventEmitter extends EventEmitter {
+//   private PIPES: TPipes = {}
+//   constructor() {
+//     super()
+//   }
+//   addPipeline(pipeName: string, cbArr: Array<TCallback>): void {
+//     this.PIPES[pipeName] = cbArr
+//   }
+//   onWithPipe(eventName: string | symbol, handler: (data: any) => any, pipeNames: Array<string>): void {
+//     const pipesGo = (data: any): void => {
+//       pipeNames.forEach((pipeName) => {
+//         this.PIPES[pipeName].reduce((acc: [any, any, any], cb: TCallback) => {
+//           acc[2] = acc[1]
+//           acc[1] = acc[0]
+//           acc[0] = cb.call(void 0, acc[0], acc[2])
+//           return acc
+//         }, [data, null, null])
+//       })
+//     }
+//     this.on(
+//       eventName,
+//       handler.call(void 0, pipesGo)
+//     )
+//   }
+// }
+// const myEE = new MyEventEmitter();
+// const cb1 = (current: any, old: any): any => {
+//   console.log(`cb1: ${current} | ${old}` );
+//   return current + 1
+// }
+// const cb2 = (current: any, old: any): any => {
+//   console.log(`cb2: ${current} | ${old}` );
+//   return current * 2
+// }
+// const handler = (data: any): any => data
+// myEE.addPipeline('pipe', [cb1, cb1, cb1, cb1, cb1]);
+// myEE.addPipeline('dy-pipe', [cb2, cb2, cb2, cb2, cb2]);
+// const someEvent = myEE.onWithPipe('click', handler, ['pipe', 'dy-pipe']);
+// //console.log(myEE);
+// myEE.emit('click', 100);
+// myEE.off('click', handler)
+// console.log(myEE);
+
+// ////////////////////////////////////////////////////////
+// import { EventEmitter } from 'events'
+// import { URL } from 'url'
+
+// type Request = {
+//   method: string,
+//   URL: string
+// }
+
+// type Route = {
+//   path: string,
+//   method: string,
+//   // eslint-disable-next-line no-unused-vars
+//   action: (req: Request) => any
+// }
+
+// const req1: Request = { method: 'GET', URL: 'http://localhost:3000/' }
+// const req2: Request = { method: 'POST', URL: 'http://localhost:3000/contacts?a=2&b' }
+// const req3: Request = { method: 'POST', URL: 'http://localhost:3000/login' }
+
+// const route1: Route = {
+//   path: '/',
+//   method: 'GET',
+//   action: (req1: Request) => { console.log('URL: ' + req1.URL); req1.URL }
+// }
+
+// const route2: Route = {
+//   path: '/contacts',
+//   method: 'POST',
+//   action: (req2: Request) => { console.log('URL: ' + req2.URL); req2.URL }
+// }
+
+// const route3: Route = {
+//   path: '/products',
+//   method: 'POST',
+//   action: (req3: Request) => { console.log('URL: ' + req3.URL); req3.URL }
+// }
+
+// const routes: Array<Route> = [route1, route2, route3]
+
+// class Router extends EventEmitter {
+//   private readonly routes: Array<Route>
+
+//   constructor (routes: Array<Route>) {
+//     super()
+//     this.routes = routes
+//   }
+
+//   resolve (someRequest: Request): Route | null {
+//     for (let route of this.routes) {
+//       if (new URL(someRequest.URL).pathname === route.path) {
+//         console.log(route)
+//         return route
+//       }
+//     }
+
+//     console.log(null)
+//     return null
+//   }
+
+//   list(): Array<Route> {
+//     console.log(this.routes)
+//     return this.routes
+//   }
+
+//   exec (someRequest: Request): any | Error {
+//     for (let route of this.routes) {
+//       if (new URL(someRequest.URL).pathname === route.path) {
+//         return route.action.call(void 0, someRequest)
+//       }
+//     }
+
+//     try {
+//       throw new Error('This route not found!')
+//     } catch (e) {
+//       console.log(e)
+//     }
+//   }
+// }
+
+// const router: Router = new Router(routes)
+
+// router.list()
+// router.resolve(req2)
+// router.resolve(req1)
+// router.resolve(req3)
+// router.exec(req2)
+// router.exec(req1)
+// router.exec(req3)
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 // import { EventEmitter, errorMonitor } from "events";
@@ -1084,7 +1174,6 @@ myEE.off('click', handler)
 // I was nearly new`, ['i', 'was', 'three', 'near']));
 
 //////////////////////////////////////////////////////////////////////
-=======
 
 //   const ar: number[] = values.sort((a,b)=> a - b)
 
@@ -1125,3 +1214,61 @@ myEE.off('click', handler)
 
 // console.log(nearestValue([4, 7, 10, 11, 12, 17], 32)); //10
 
+/////////////////////////////////////////////////////////////////////////////////////////
+import { EventEmitter } from "events";
+​​
+type TCallback = (current: any, old: any) => any;
+​type TPipes = { [key: string]: Array<TCallback> }
+​
+class MyEventEmitter extends EventEmitter {
+​    private PIPES: TPipes = {}
+​    private map = new Map()
+​    constructor() {
+        super()
+    }
+​​
+    addPipeline(pipeName: string, cbArr: Array<TCallback>): void {
+​      this.PIPES[pipeName] = cbArr
+    }
+​
+    onWithPipe(eventName: string | symbol, handler: (data: any) => any, pipeNames: Array<string>): void {
+​      const pipes = pipeNames.reduce((acc, name) => {
+        if (this.PIPES[name]) {
+            acc = acc.concat(this.PIPES[name])
+        }
+​            return acc
+      }, [] as TCallback[])
+​        const newCallback = (data: any): any => {
+​            const newData = pipes.reduce((acc: any, cb: TCallback) => {
+              return cb.call(void 0, acc, data)
+          }, data)
+​            handler.call(void 0, newData)
+      }
+​        this.map.set(handler, newCallback)
+​        this.on(eventName, newCallback)
+    }
+​
+    offWithPipe(eventName: string | symbol, listener: (...args: any[]) => void): void {
+      this.off(eventName, this.map.get(listener))
+    }
+}
+​​
+const myEE = new MyEventEmitter();​​
+const cb1 = (current: any, old: any): any => {
+​   console.log(`cb1: ${current} | ${old} `);
+  return current + 1
+}
+const cb2 = (current: any, old: any): any => {
+​  console.log(`cb2: ${current} | ${old} `);
+  return current * 2
+}
+​​
+const handler = (data: any): any => {
+​  console.log(data)
+}
+​​
+myEE.addPipeline('pipe', [cb1, cb1, cb1, cb1, cb1]);
+myEE.addPipeline('dy-pipe', [cb2, cb2, cb2, cb2, cb2]);
+​​myEE.onWithPipe('click', handler, ['pipe', 'dy-pipe']);
+myEE.emit('click', 100);
+​myEE.offWithPipe('click', handler)
